@@ -242,47 +242,7 @@ $(".btn-play").on("click", () => {
 });
 
 // -- FUNCTIONS --
-function verifyResponse(val, objet) {
-  let enigme = enigmes.find((e) => e.objet === objet);
 
-  if (enigme.objet !== undefined && enigme.objet !== null) {
-    let bonneReponse = false;
-    enigme.bonneReponse.forEach((reponse) => {
-      if (val === reponse) {
-        bonneReponse = true;
-      }
-    });
-    if (bonneReponse) {
-      // Chaque la popup contenant l'énigme
-      $(`#enigme-${enigme.objet}`).hide();
-      // Affiche la popup contenant le résultat
-      $("body").prepend(`
-          <div class="resultat-enigme popup">
-            <i class="far fa-times-circle close"></i>
-            <p class="resultat-enigme-text win">bonne réponse !</p>
-          </div>`);
-    } else {
-      // Chaque la popup contenant l'énigme
-      $(`#enigme-${enigme.objet}`).hide();
-      // Affiche la popup contenant le résultat
-      $("body").prepend(`
-          <div class="resultat-enigme popup">
-            <i class="far fa-times-circle close"></i>
-            <p class="resultat-enigme-text lose">mauvaise réponse...</p>
-            <button class="btn-essai">Réessayer</button>
-          </div>`);
-      // Lors du clique sur le bouton "Réessayer", la popup enigme se remontre
-      $(".btn-essai").on("click", () => {
-        $(".resultat-enigme").remove();
-        $(`#enigme-${enigme.objet}`).show();
-      });
-    }
-    // Permet de fermer la popup
-    $(".close").on("click", () => {
-      $(".popup").remove();
-    });
-  }
-}
 
 window.showEnigma = function (objet) {
   let enigme = enigmes.find((e) => e.objet === objet);
@@ -318,6 +278,48 @@ window.showEnigma = function (objet) {
           $(this).addClass("active");
         }
       });
+    }
+
+    function verifyResponse(val, objet) {
+      let enigme = enigmes.find((e) => e.objet === objet);
+
+      if (enigme.objet !== undefined && enigme.objet !== null) {
+        let bonneReponse = false;
+        enigme.bonneReponse.forEach((reponse) => {
+          if (val === reponse) {
+            bonneReponse = true;
+          }
+        });
+        if (bonneReponse) {
+          // Chaque la popup contenant l'énigme
+          $(`#enigme-${enigme.objet}`).hide();
+          // Affiche la popup contenant le résultat
+          $("body").prepend(`
+          <div class="resultat-enigme popup">
+            <i class="far fa-times-circle close"></i>
+            <p class="resultat-enigme-text win">bonne réponse !</p>
+          </div>`);
+        } else {
+          // Chaque la popup contenant l'énigme
+          $(`#enigme-${enigme.objet}`).hide();
+          // Affiche la popup contenant le résultat
+          $("body").prepend(`
+          <div class="resultat-enigme popup">
+            <i class="far fa-times-circle close"></i>
+            <p class="resultat-enigme-text lose">mauvaise réponse...</p>
+            <button class="btn-essai">Réessayer</button>
+          </div>`);
+          // Lors du clique sur le bouton "Réessayer", la popup enigme se remontre
+          $(".btn-essai").on("click", () => {
+            $(".resultat-enigme").remove();
+            $(`#enigme-${enigme.objet}`).show();
+          });
+        }
+        // Permet de fermer la popup
+        $(".close").on("click", () => {
+          $(".popup").remove();
+        });
+      }
     }
 
     // Vérification de la réponse au clique sur un bouton
